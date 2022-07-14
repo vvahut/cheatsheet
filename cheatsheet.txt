@@ -1,0 +1,353 @@
+====================
+WINDOWS
+====================
+
+set PATH=%PATH%;C:\your\path\here\
+--------------------
+move *service* services\
+--------------------
+tracert www.mikrobitti.fi
+
+
+====================
+UNIX
+====================
+
+lxc start <kontti>         #käynnistää kontin
+lxc exec <kontti> bash     #suorittaa bashin kontissa; antaa shellin siis
+-------------------
+groups                     #näyttää mihin ryhmiin kirjautunut käyttäjä kuuluu
+getent group <groupname>   #näyttää keitä tietyssä ryhmässä on
+usermod -aG sudo <user>    #lisää käyttäjän sudo-ryhmään
+su - <user>                #vaihtaa käyttäjää (viiva -> a login shell)
+-------------------
+mount -t <fs> <dev> <tgt>  #e.g. mount -t ext4 /dev/sda7 /mnt/joku
+umount 
+--------------------
+update-grub                #päivittää konfiguraatiomuutokset (/etc/default/grub)
+--------------------
+lscpu                      #järjestelmätietoja
+lshw 
+hwinfo                     #dev infoa
+lsblk                      #block devices
+fdisk -l
+mount | column -t 
+--------------------
+cat /proc/version          #kernel version
+--------------------  
+man man                    #manuaali manuaalista
+man kill.2                 #2. kappale (section) kill-manuaalista
+man -k <hakutermi>         #haku
+man -k .                   #kaikki sivut (. = any character)`
+haku: '/sana' tai '?sana'  #jos ?sana, niin N=seuraava osuma; n=edellinen osuma
+--------------------
+id                         #print real and effective user and group IDs
+--------------------
+info coreutils
+info info                  #introduction to 'info'
+--------------------
+ps -p <pid> -o lstart=     #prosessin aloituspäivämäärä
+ps -EZ                     #selinux
+--------------------
+python -m pdb <file.py>    #Python debugger (line by line)
+--------------------
+do-release-upgrade         # Upgrade the OS to the latest release; preferred command if the machine has no graphic environment
+--------------------
+ar vx <paketti.deb>        #purkaa debian-paketin
+--------------------
+apt-cache policy <package> #näyttää mistä reposta paketti tulee (e.g. deadsnakes vs. http://fi.archive.ubuntu.com)
+apt show <package>         #näyttää asennetun paketin tiedot
+apt full-upgrade           #install candidate version of installed packages while __REMOVING OTHER PACKAGES__ if needed 
+apt-get dist-upgrade       #install candidate version of installed packages while __REMOVING OTHER PACKAGES__ if needed 
+apt-get upgrade            #install candidate version of installed packages WITHOUT REMOVING any other packages 
+apt list --upgradeable     #näyttää päivitettävät paketit
+apt-cache show <package>   #display detailed information about "foo" package 
+aptitude search '~i!~M'    #list manually installed packages
+apt --installed list       #installed packages
+apt-get clean              #clear local repo of retrieved .deb(s); not lock file from /var/cache/apt/archives/ and /var/cache/apt/archives/partial/
+apt-get autoclean          #clear local repo of retrieved .deb(s), but unlike apt-get clean, remove only largely useless .deb that can't be downloaded
+--simulate / --dry-run     #no action; perform a simulation of events that would occur
+unattended-upgrades --dry-run --debug   #näyttää päivitettävät paketit
+systemctl status unattended-upgrades
+--------------------
+strace python hello.py >2 >(grep openat)  #näyttää python-ohjelman tiedostonavaukset (käyttää anonyymia pipea)
+--------------------
+configure
+make
+make install
+make -n <komento>  #näyttää suoritettavat komennot (parametrit/muuttujat täytetty); e.g. make -n install/altinstall
+--------------------
+gzip -d file.gz    #pura .gz-tiedosto
+--------------------
+xxd <tiedosto>     #binarikoodeiksi (hexadesimaaliesitys)
+--------------------
+npm config list    #näyttää mm. node_modulien $PATHin
+--------------------
+yarn upgrade-interactive
+--------------------
+sudo -s            #root (interactive shell)
+sudo -i            #root (as a login shell; login-specific files such as .profile or .login will be read by the shell)
+--------------------
+wc -m   #merkkejä
+wc -l   #rivejä
+--------------------
+ls --full-time
+ls -R            #tiedostot ja kansiot rekursiivisesti
+ls -latc         #listaa kaiken muokkausaikajärjestyksessä
+ls -Z file       #SELinux context
+--------------------
+crontab -l    #näyttää aktiiviset cronit
+--------------------
+for i in {1..5}; do touch $i.txt; done;
+--------------------
+cp -a /source/. /dest/ #contents to an existing folder
+--------------------
+chown user:user <file>
+--------------------
+/var/log/auth.log  #login info
+--------------------
+cat /etc/services    #avoimet portit
+echo stats | nc localhost 11211
+--------------------
+dig -t txt google.com  #DNS TXT RECORDS
+--------------------
+printenv
+export PG_HOST=localhost   #asettaa ympäristömuuttujaan nykyiseen ympäristöön kaikille prosesseille
+export $(cat .env | xargs)    #exporttaa kaikki ympäristömuuttuja .env-tiedostosta
+--------------------
+echo $? --> exit code of the last command
+echo -n "salasana" | base -w 0 --> linebreak handling
+--------------------
+sudo su - joku_kayttaja -c "pwd"  #antaa joku_käyttäjän kotikansion
+--------------------
+diff -y tiedosto_1 tiedosto_2    #näyttää rinnakkain
+diff -I -y tiedosto_1 tiedosto_2 #näyttää rinnakkain vain eroavat
+diff -y -b tiedosto_1 tiedosto_2 #näyttää rinnakkain mutta ignoroi välilyönnit
+diff -q hakemisto_1 hakemisto_2  #hakemistojen sisällön vertailu (-r rekursiivisesti)
+--------------------
+ps -p1 #käytetty init-järjestelmä
+pstree
+ps -elf
+--------------------
+w #kirjautuneet
+--------------------
+su - <user_name>  #vaihda käyttäjää (EI: sudo su && su - postgres && psql)
+sudo -u postgres psql #sudo su & su - postgres)
+sudo -u postgres -i
+psql -d database_name
+psql -d database_name -U db_user
+pg_dump database_name > outfile
+show log_directory;
+show data_directory;
+show log_filename;
+create database database_name;
+create user nimi with password 'salasana';
+update taulu set locale='en-us' where id = 'd5a70fe8-cc8d-41a7-9535-19f83c706283';
+CREATE DATABASE db_name_clean WITH TEMPLATE db_name OWNER db_user; #kopioi tietokanta
+drop database db_name;
+alter user db_user with encrypted password 'db_password';
+alter database <db> rename to <newdb>;
+create database db_name with owner db_user;
+alter table <table_name> owner to <role_name>;
+alter database <db_name> rename to <new_db_name>;
+show all;  #näyttää käytössä olevat asetukset
+\du  - käyttäjät
+\dt+ - taulut
+\q   - exit
+\l   - tietokannat
+\d <taulu> - taulun rakenne
+--------------------
+{
+  sudo apt install postgresql postgresql-contrib
+  sudo -u postgres createuser db_user
+  sudo -u postgres createdb db_name
+  sudo -u postgres psql
+}
+--------------------
+lsb_release -a
+--------------------
+grep -rn '/path' -e 'pattern' #etsi tiedostoista merkkijonoja
+grep --exclude-dir=env -rn '/path' -e 'pattern' 
+grep -v  #reverse-grep
+--------------------
+pkill -f <pattern> #kill all processes with a pattern, e.g. celery
+--------------------
+ss -l              #listaa avoinna olevat socketit
+--------------------
+netstat -pna | grep 80¨
+netstat -p -nlp | grep 5432
+netstat -l --inet  #listening ports
+netstat -r  #routing table
+--------------------
+find . -name "*env*" 2>/dev/null
+--------------------
+sudo ufw allow 80
+sudo ufw delete allow 80
+--------------------
+python3 -m http.server    #jakaa kansion
+--------------------
+scp -i key.pem user@ec2.yadiyada.com:/home/folder/backup.sql ./backup.sql
+--------------------
+nohup /path/to/test.py &  #no hang up; prosessi ei kuole kun terminaali suljetaan
+--------------------
+adduser <username>
+usermod -aG sudo <username>
+grep '^groupname:' /etc/group  #show group members
+--------------------
+nano /etc/ssh/sshd_config
+PermitRootLogin no
+--------------------
+df -h      #levytila:
+free -m    #swap, muisti
+--------------------
+du -sh     #kansion koko (directory size)
+du -shc
+du
+--------------------
+sudo visudo
+Defaults        timestamp_timeout=30
+--------------------
+sudo docker run -it <image> sh/bash
+sudo docker ps
+sudo docker images
+sudo docker-compose -up
+sudo docker build -t <halutun imagen nimi> <kansio, josta buildataan; esim. ".">
+sudo docker run -d -p 5000:5000 --name registry registry:2
+sudo docker exec -it <container> /bin/bash (esim.)
+sudo docker logs <container>
+sudo docker network create net1
+sudo docker run -d --net=net1 --name nginx_test -p 80:80 nginx_test
+sudo docker run -d --net=net1 --name django_test -p 8080:8080 django_test
+sudo docker system prune -af
+sudo docker volume
+--------------------
+SSH-avain Githubiin:
+sudo ssh-keygen -t ed25519 -C "your_email@example.com"
+sudo git remote set-url origin git@github.com:vvahut/node-repository.git
++ heitä id_ed25519.pub githubin ssh-avaimiin
+--------------------
+sudo nano /etc/ssh/sshd_config
+service sshd restart
+systemctl status nginx
+systemctl disable nginx #auto-käynnistys pois päältä
+--------------------
+git checkout -f  #discard all changes in the working directory
+git log origin/main #remote log
+git diff --name-only --diff-filter=U #näyttää kaikki konfliktitiedostot
+git diff --cached <file> #näyttää staging areassa olevat muutokset
+git diff Develop...master  #three dot diff
+git diff Develop..master   #two dot diff
+git diff <branch> -- filename
+git rebase -i <after-this-commit>; esim. git rebase -i HEAD~4¨
+git commit --amend -m "new commit messages" #korvaa edellinen commit message uudella
+git reset --soft HEAD ~1 #working directoryn tila säilyy, mutta commit poistuu
+git reset --hard origin/Develop #reset remote branch
+git remote -v 
+git remote rename <vanha> <uusi>
+git branch -D <branch-name> #delete local branch
+git branch -m <old-branch-name> <new-branch-name> #muuta lokaalin branchin nimi
+git branch -vv #näyttää mitä remotea seurataan (tracking)
+git branch -r  #näyttää remote-haarat`
+git branch --set-upstream-to=origin/`git branch --show-current`  #set-upstream ilman pushia
+git branch --unset-upstream
+git remote set-url <nimi> <uusi_url>
+git checkout <kopioitava haara> -- <kopioitava tiedosto> (on myös uudempi tapa)
+git config --global --edit
+git revert <commit_hash> #reverttaa yksittäisen commitin
+git show <commit>
+git push origin --delete feature/login #poista remote branch
+git log --pretty=raw #shows committer and author of a commit (e.g. github + user)
+git log --oneline --graph --all --decorate
+git log --follow -- filename  #näyttää mitkä commitit teki muutoksia tiedostoon
+git log dev master --oneline --graph --decorate
+git reflog show develop
+git cherry-pick <to-branch>..<from-branch>`
+git cherry-pick <commit_a>^..<commit_b> #poimii commitit tietyltä väliltä; huomaa '^', muuten 1.commit ei sisälly...
+git add --patch <filename> #voi commitoida osia tiedostosta
+git checkout stash@{0} -- <filename>
+git stash list
+git stash apply <num>
+git stash show <num>
+git stash push -m "my_stash" #nimellinen tallennus
+git clean -n    # näyttää seuraamattomat tiedostot (untracked files), jotka siivottaisiin
+git clean -f    # siivoaa tiedostot! ole varovainen!
+--------------------
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+ssh -T git@github.com #testaa, että ssh-avain toimii
+--------------------
+rsync -av --progress sourcefolder /destinationfolder --exclude thefoldertoexclude
+--------------------
+diff -y <(git log develop-github --oneline) <(git log develop --oneline)  #näyttää historioiden eroavaisuudet
+--------------------
+gitk --all
+--------------------
+python manage.py migrate app_name 0002
+--------------------
+curl -H 'Accept: application/json; indent=4'-u admin:admin http://localhost/api/users/
+--------------------
+pip show pip
+pip3 show pip
+pip list  #show installed packages and their versions
+--------------------
+pip show pip vs. pip3 show pip
+pip install --upgrade pip #päivitä pip
+--------------------
+curl -L https://github.com/kubernetes/kompose/releases/download/v1.22.0/kompose-linux-amd64 -o kompose
+chmod +x kompose
+sudo mv ./kompose /usr/local/bin/compose
+kompose convert
+--------------------
+127.0.0.1:8000/api/openid/authorize?client_id=819318&redirect_uri=http://127.0.0.1:8000&response_type=code&scope=openid email profile&state=123123
+curl -X POST -H "Cache-Control: no-cache" -H "Content-Type: application/x-www-form-urlencoded" "http://127.0.0.1:8000/api/openid/token/" -d "client_id=819318"     
+     -d "client_secret=d5a14513b3aad1599e68fcc1dc2f3910cfe4bc82428aa93e5b1a1e78"
+     -d "code=fbd30bb1732f473397137be5a2422119"
+     -d "redirect_uri=http://127.0.0.1:8000"
+     -d "grant_type=authorization_code"
+curl -H "Authorization: Bearer f68ce565857e42f58a1a079ffd2b3945" -X GET https://osoite.fi/api/profiles/005453b2-6858-4fe0-8865-4cd3f2b21abf/
+curl -H "Authorization: Bearer dfa102104332499b898c7add08cdd4f0" -X GET http://127.0.0.1:8000/api/paymentsettings/
+--------------------
+eval $(minikube -p minikube docker-env)
+kubectl exec --stdin --tty stack-nginx-9c9877b74-8x7h9 -- /bin/bash
+kubectl get deployment,svc,pods -o wide
+minikube service list
+minikube start/stop/delete
+minikube ip
+kubectl delete pods --all
+kubectl delete pod stack-django-6ffbf9ffb5-t9jdb
+kubectl delete pvc static-back
+kubectl rollout restart deployment/stack-nginx
+kubectl logs <pod> -c <initcontainer>
+kubectl get pv
+{ kubectl scale -n default deployment stack-nginx --replicas=0; 
+  kubectl scale -n default deployment stack-nginx --replicas=1 }
+kubectl delete -n default persistentvolumeclaim static-front
+kubectl describe pods
+kubectl logs --since=1h nginx
+--------------------
+systemctl restart rabbitmq-server.service
+systemctl restart memcached.service
+echo "from django.core.cache import cache; cache._cache.flush_all()" | python manage.py shell --settings=app_name.settings
+--------------------
+python manage.py shell; from app_name import settings
+python manage.py migrate --plan
+python manage.py test --keepdb
+--------------------
+pandoc --extract-media=. -f docx -t gfm word_dokumentti.docx -o markdown_output.md #Word-dokumentti markdown-muotoon kuvilla
+--------------------
+psql app_name -c "COPY (select * from pg_stat_statements) TO '/var/log/postgresql/sql_queries' with csv";
+--------------------
+for i in {3..100}; do nmap --host-timeout 5 -Pn -p 22 185.224.75.$i; done;
+nmap -A 185.224.75.35
+--------------------
+if [ "${STATUS}" != 200 ] && [ "${STRING}" != "${VALUE}" ]; then
+if [[ $USED_SPACE -gt 5000000000 ]]; then
+echo $((4*3+5))
+--------------------
+USED_SPACE=$(sudo su - postgres -c "du -s | awk '{print $1}'")
+--------------------
+while read line; do johnnydep $line > temp.txt; sed 1,2d temp.txt >> out.txt; done < requirements;
+--------------------
+cat PÄIVÄKIRJA.txt | grep -oP '\[htt.*\]' | sort  #PÄIVÄKIRJASTA URLIEN GREPPAUS
+cat PÄIVÄKIRJA.txt | grep -oP '\/KOMENTO\/.*'     #PÄIVÄKIRJASTA TAGIEN GREPPAUS
+--------------------
